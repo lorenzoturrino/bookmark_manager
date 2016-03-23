@@ -10,7 +10,11 @@ class BookmarkManager < Sinatra::Base
 
   get '/' do
     erb(:hello)
+  end
 
+  post '/signup' do
+    @username = params[:username]
+    erb :registration_completed
   end
 
   post '/links' do
