@@ -29,5 +29,11 @@ class BookmarkManager < Sinatra::Base
     erb(:'links/add_link')
   end
 
+  get '/tags/:name' do
+    tag = Tag.first(tag_name: params[:name])
+    @links = tag ? tag.links : []
+    erb(:'links/links')
+  end
+
   run! if app_file == $0
 end
