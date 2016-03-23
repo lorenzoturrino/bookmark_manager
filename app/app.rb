@@ -1,9 +1,11 @@
-ENV['RACK_ENV'] ||= 'development'
-
 require 'sinatra/base'
+require 'bcrypt'
+
 require './app/models/link.rb'
 require './app/models/tag.rb'
+require './app/models/user.rb'
 
+ENV['RACK_ENV'] ||= 'development'
 require './app/models/data_mapper_setup'
 
 class BookmarkManager < Sinatra::Base
@@ -13,7 +15,14 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/signup' do
-    @username = params[:username]
+    encrypted_pwd = (BCrypt::Password.create params[:pass]).to_s
+    User.create(username: params[:username] , email: params[:email], password: encrypted_pwd.to_s)
+    redirect '/registration_completed'
+  end
+
+  get '/registration_completed' do
+    @username = User.last.username
+    @registered_count = User.count
     erb :registration_completed
   end
 

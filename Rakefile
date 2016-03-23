@@ -13,4 +13,12 @@ namespace :db do
     DataMapper.auto_migrate!
     puts 'Auto-migrate complete (data was lost)'
   end
+
+  desc "TEST ENV Destructive upgrade"
+  task :test_auto_migrate do
+    DataMapper.setup(:default, "postgres://localhost/bookmark_manager_test")
+    DataMapper.auto_migrate!
+    puts 'TESTAuto-migrate complete (data was lost)'
+  end
+
 end
