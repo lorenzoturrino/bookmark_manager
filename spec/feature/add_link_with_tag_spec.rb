@@ -9,6 +9,7 @@ feature 'add tags' do
     fill_in 'link_name', with: "Google"
     fill_in 'link_address', with: "http://google.com"
     fill_in 'tag_name', with: 'Search'
+    click_button 'Memorize Bookmark'
     expect(page).to have_content 'Search'
   end
 end
