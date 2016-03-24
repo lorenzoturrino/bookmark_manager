@@ -10,6 +10,17 @@ enable :sessions
     @links = Link.all
   end
 
+  get '/' do
+    erb :home
+  end
+
+  post '/welcome' do
+    
+    redirect to('/links')
+  end
+
+  end
+
   get '/links' do
     erb :"links/index"
   end
