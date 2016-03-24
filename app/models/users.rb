@@ -6,4 +6,6 @@ class Users
     property :email, String
     property :password, String, :length => 60
 
+    has n, :links
+
 end

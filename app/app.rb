@@ -7,10 +7,6 @@ require 'bcrypt'
 class BookmarkManager < Sinatra::Base
 enable :sessions
 
-  before do
-    @links = Link.all
-  end
-
   get '/' do
     erb :home
   end
@@ -25,8 +21,10 @@ enable :sessions
   get '/links' do
     user = Users.get(session[:user_id])
     @username = user.username
+    @user_id = user.id
     @number_of_users = Users.count
     @email = user.email
+    @links = Link.all(users_id: user.id) || []
     erb :"links/index"
   end
 
@@ -35,7 +33,8 @@ enable :sessions
   end
 
   post '/links' do
-    link = Link.new(url: params[:url], title: params[:title])
+    user = Users.get(session[:user_id])
+    link = Link.new(url: params[:url], title: params[:title], users_id: user.id)
     tags = params[:name].gsub(/, /, ',').split(',')
     tags.each{ |tag| link.tags << Tag.create(name: tag) }
     link.save
