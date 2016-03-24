@@ -17,14 +17,16 @@ enable :sessions
 
   post '/welcome' do
     password = BCrypt::Password.create(params[:password])
-    Users.create(username: params[:username], email: params[:email], password: password.to_s)
+    user = Users.create(username: params[:username], email: params[:email], password: password.to_s)
+    session[:user_id] = user.id
     redirect to('/links')
   end
 
   get '/links' do
-    @username = Users.last.username
+    user = Users.get(session[:user_id])
+    @username = user.username
     @number_of_users = Users.count
-    @email = Users.last.email
+    @email = user.email
     erb :"links/index"
   end
 
