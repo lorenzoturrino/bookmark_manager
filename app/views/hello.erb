@@ -1,8 +1,16 @@
-<h1> Welcome please add a valid username and email to login </h1>
+<h1>Welcome! Please login or signup</h1>
+
+<form action="/login" method="post">
+  <p>Use this form to login as a existing user</p>
+  <input type="text" name="log_username" placeholder='your username'/>
+  <input type="text" name="log_pass" placeholder="your pwd"/>
+  <button type="submit">Log In</button>
+</form>
 
 <form action="/signup" method="post">
-  <input type="text" name="username" placeholder='your username'/>
-  <input type="text" name="email" placeholder="your email"/>
-  <input type="text" name="pass" placeholder="your pwd"/>
+  <p>Use this form to register as a new user</p>
+  <input type="text" name="reg_username" placeholder='your username'/>
+  <input type="text" name="reg_email" placeholder="your email"/>
+  <input type="text" name="reg_pass" placeholder="your pwd"/>
   <button type="submit">Sign Up</button>
 </form>

@@ -10,18 +10,36 @@ require './app/models/data_mapper_setup'
 
 class BookmarkManager < Sinatra::Base
 
+  enable :sessions
+
   get '/' do
     erb(:hello)
   end
 
   post '/signup' do
-    encrypted_pwd = (BCrypt::Password.create params[:pass]).to_s
-    User.create(username: params[:username] , email: params[:email], password: encrypted_pwd.to_s)
+    encrypted_pwd = (BCrypt::Password.create params[:reg_pass]).to_s
+    user = User.create(username: params[:reg_username] , email: params[:reg_email], password: encrypted_pwd.to_s)
+    session[:userid] = user.id
     redirect '/registration_completed'
   end
 
+  post '/login' do
+    encrypted_pwd = (BCrypt::Password.create params[:log_pass]).to_s
+    tentative_user = User.last(username: params[:log_username])
+    if tentative_user.password == encrypted_pwd
+      redirect '/registration_completed'
+    else
+      redirect '/wrong_pwd'
+    end
+  end
+
+  get '/wrong_pwd' do
+    "wrong pwd"
+  end
+
   get '/registration_completed' do
-    @username = User.last.username
+    puts "sid is #{session[:userid]}"
+    @username = User.get(session[:userid]).username
     @registered_count = User.count
     erb :registration_completed
   end
