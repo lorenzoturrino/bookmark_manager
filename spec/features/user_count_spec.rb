@@ -5,8 +5,14 @@ feature 'user count & log in' do
     expect(page).to have_field 'email'
     expect(page).to have_button 'sign in'
   end
-  #
-  # scenario 'user count goes up by one when user signs up' do
-  #
-  # end
+
+  scenario 'counts number of current users' do
+      sign_in
+      expect(page).to have_content '1 user'
+  end
+
+  scenario 'email in database is correct' do
+    sign_in
+    expect(page).to have_content 'jazzy@email.com'
+  end
 end

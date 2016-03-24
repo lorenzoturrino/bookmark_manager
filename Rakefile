@@ -3,22 +3,28 @@ require './app/app.rb'
 
 namespace :db do
   desc "Non destructive upgrade"
-  task :auto_upgrade do
+  task :upgrade do
     DataMapper.auto_upgrade!
     puts "Auto-upgrade complete (no data lost)"
 end
 
 desc "Destructive upgrade"
-  task :auto_migrate do
+  task :migrate do
     DataMapper.auto_migrate!
     puts "Auto-migrate complete (data was lost)"
   end
 
   desc "Test Env Destructive upgrade"
-    task :tenv_auto_migrate do
+    task :tenv_migrate do
       DataMapper.setup(:default, "postgres://localhost/bookmark_manager_tests")
       DataMapper.auto_migrate!
       puts "Auto-migrate complete (data was lost)"
     end
+
+desc "Migrate all"
+  task :mal do
+    Rake::Task["db:migrate"].invoke
+    Rake::Task["db:tenv_migrate"].invoke
+  end
 
 end
