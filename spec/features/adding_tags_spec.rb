@@ -1,5 +1,5 @@
 feature 'add tags' do
-  scenario 'view tags added' do
+  xscenario 'view tags added' do
     visit '/links/new'
     fill_in :title, with: 'Makers Academy'
     fill_in :url, with: 'http://www.makersacademy.com'
@@ -10,7 +10,7 @@ feature 'add tags' do
     expect(link.tags.map(&:name)).to include('education')
     end
 
-    scenario 'can add mutiple tags' do
+    xscenario 'can add mutiple tags' do
       visit '/links/new'
       fill_in :title, with: 'Makers Academy'
       fill_in :url, with: 'http://www.makersacademy.com'

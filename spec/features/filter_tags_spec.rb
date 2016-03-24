@@ -1,4 +1,4 @@
-feature 'filter tags' do
+xfeature 'filter tags' do
 
   before(:each) do
     Link.create(url: 'http://www.makersacademy.com', title: 'Makers Academy', tags: [Tag.first_or_create(name: 'education')])

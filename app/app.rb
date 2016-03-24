@@ -6,16 +6,26 @@ require 'bcrypt'
 
 class BookmarkManager < Sinatra::Base
 enable :sessions
+set :session_secret, 'notsosecret'
+
 
   get '/' do
     erb :home
   end
 
   post '/welcome' do
-    password = BCrypt::Password.create(params[:password])
-    user = Users.create(username: params[:username], email: params[:email], password: password.to_s)
-    session[:user_id] = user.id
-    redirect to('/links')
+    if params[:password] == params[:password_confirmation]
+      password = BCrypt::Password.create(params[:password])
+      user = Users.create(username: params[:username], email: params[:email], password: password.to_s)
+      session[:user_id] = user.id
+      redirect to('/links')
+    else
+      redirect to('/try_again')
+    end
+  end
+
+  get '/try_again' do
+    "mismatching password"
   end
 
   get '/links' do
@@ -29,6 +39,8 @@ enable :sessions
   end
 
   get '/links/new' do
+    user = Users.get(session[:user_id])
+      @username = user.username
     erb :"links/new"
   end
 
