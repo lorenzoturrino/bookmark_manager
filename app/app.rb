@@ -15,13 +15,12 @@ enable :sessions
   end
 
   post '/welcome' do
-    
+    Users.create(username: params[:username], email: params[:email], password: 'missing')
     redirect to('/links')
   end
 
-  end
-
   get '/links' do
+    @username = Users.last.username
     erb :"links/index"
   end
 
